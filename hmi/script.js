@@ -1,7 +1,6 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-/* ====== STAV SIMULACE ====== */
 let scene = {
     width: 800,
     height: 600
@@ -12,16 +11,28 @@ let planet = {
     mass: 500
 };
 
-/* ====== INIT SCÉNY ====== */
-function updateSceneSize() {
-    canvas.width = scene.width;
-    canvas.height = scene.height;
+let scale = 1;
+
+function resizeCanvas() {
+    const controlsHeight = document.querySelector('header')?.offsetHeight || 0; 
+    
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight - controlsHeight - 40;
+
+    const scaleX = windowWidth / scene.width;
+    const scaleY = windowHeight / scene.height;
+    scale = Math.min(scaleX, scaleY);
+
+    canvas.width = scene.width * scale;
+    canvas.height = scene.height * scale;
 }
 
-updateSceneSize();
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
 
-/* ====== KRESLENÍ ====== */
 function drawPlanet() {
+    ctx.save();
+    ctx.scale(scale, scale);
     ctx.beginPath();
     ctx.arc(
         scene.width / 2,
@@ -32,9 +43,10 @@ function drawPlanet() {
     );
     ctx.fillStyle = "blue";
     ctx.fill();
+
+    ctx.restore();
 }
 
-/* ====== UI NAPOJENÍ ====== */
 const planetSizeInput = document.getElementById("planetSize");
 const massSlider = document.getElementById("planetMass");
 const massValue = document.getElementById("massValue");
@@ -53,13 +65,12 @@ massSlider.addEventListener("input", () => {
 function onSceneSizeChange() {
     scene.width = Number(sceneWidthInput.value);
     scene.height = Number(sceneHeightInput.value);
-    updateSceneSize();
+    resizeCanvas();
 }
 
 sceneWidthInput.addEventListener("change", onSceneSizeChange);
 sceneHeightInput.addEventListener("change", onSceneSizeChange);
 
-/* ====== HLAVNÍ SMYČKA ====== */
 function loop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawPlanet();
