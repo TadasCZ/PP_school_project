@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semestrální práce</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Semestrální práce</h1>
+        <div class="status-check">
+            <h1>Stav: <span id="status">Disconnected</span></h1>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <main>
+            <canvas id="canvas"></canvas>
+        </main>
+
+        <aside>
+            <h2>Ovládání</h2>
+
+            <label>Velikost planety</label>
+            <input type="number" id="planetSize" value="50">
+
+            <label>Hmotnost planety</label>
+            <input type="range" id="planetMass" min="10" max="2000" value="500">
+            <span id="massValue">500</span>
+
+            <label>Šířka scény</label>
+            <input type="number" id="sceneWidth" value="800">
+
+            <label>Výška scény</label>
+            <input type="number" id="sceneHeight" value="600">
+
+            <button type="button" id="btn" name="btn">RESET</button>
+        </aside>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
